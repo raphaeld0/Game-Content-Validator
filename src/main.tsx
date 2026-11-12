@@ -239,7 +239,7 @@ function LandingPage({onEnter}: {onEnter: () => void}) {
         <a href="#proof">Validation</a>
         <a href="#architecture">Architecture</a>
       </div>
-      <button className="landing-open" onClick={onEnter}>ABRIR CONSOLE <ArrowRight size={15}/></button>
+      <button className="landing-open" onClick={onEnter}>OPEN CONSOLE <ArrowRight size={15}/></button>
     </header>
 
     <main id="top">
@@ -250,7 +250,7 @@ function LandingPage({onEnter}: {onEnter: () => void}) {
         <h1><span>GAME</span><span>CONTENT</span><span className="hero-outline">PIPELINE</span></h1>
         <div className="hero-copy">
           <p>Configure events, validate relationships, and stage releases before a content package reaches the game.</p>
-          <button onClick={onEnter}><span>EXPLORAR O CONSOLE</span><ArrowRight size={18}/></button>
+          <button onClick={onEnter}><span>EXPLORE THE CONSOLE</span><ArrowRight size={18}/></button>
         </div>
 
         <div className="manifest-stamp" aria-hidden="true">
@@ -451,7 +451,7 @@ function PipelineView({step, setStep, showToast, setView, data}: {step: number; 
   const stages = [
     {title:'Validate package', detail:'Server API · 24 rules', icon: ShieldCheck},
     {title:'Create snapshot', detail:'Manifest + artifacts', icon: ArchiveRestore},
-    {title:'Publish to staging', detail:'D1 release record', icon: CloudUpload},
+    {title:'Publish to staging', detail:'SQLite release record', icon: CloudUpload},
     {title:'Final approval', detail:'Auditable server history', icon: ClipboardCheck},
   ]
   async function advance() {
@@ -487,7 +487,7 @@ function PipelineView({step, setStep, showToast, setView, data}: {step: number; 
         <div className="release-art"><Rocket size={31}/><span>STAGING RELEASE</span></div>
         <h2>Winter Rift 2026</h2><code>EVT_WINTER_2026 · v1.9.0-rc1</code>
         <div className="release-details"><div><span>Artifacts</span><b>68 files</b></div><div><span>Size</span><b>142 KB</b></div><div><span>API</span><b>online</b></div><div><span>Target</span><b>staging-br1</b></div></div>
-        <div className="release-note"><Database size={15}/><p>The final stage writes a real release record to the server database.</p></div>
+        <div className="release-note"><Database size={15}/><p>The Python pipeline writes a durable release record to local SQLite.</p></div>
         <button className="primary full" onClick={advance} disabled={publishing}>{publishing ? <LoaderCircle className="spin" size={16}/> : null}{step < 4 ? 'Run stage' : 'Publish to staging'}<ChevronRight size={16}/></button>
         <button className="ghost full" onClick={() => setView('editor')}>Back to editor</button>
       </aside>

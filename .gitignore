@@ -2,3 +2,7 @@ node_modules/
 dist/
 *.local
 .DS_Store
+validator-engine/bin/
+release-pipeline/data/
+__pycache__/
+*.pyc

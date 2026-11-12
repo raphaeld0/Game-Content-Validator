@@ -5,10 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
+    "dev:api": "python release-pipeline/app.py",
     "build:client": "tsc -b && vite build",
     "build": "npm run build:client && node scripts/build-worker.mjs",
     "preview": "vite preview --host 0.0.0.0",
-    "test:backend": "node scripts/test-backend.mjs"
+    "local:setup": "python scripts/setup_local.py && npm run build:client",
+    "local": "python scripts/run_local.py",
+    "test:cpp": "validator-engine\\bin\\validator-tests.exe",
+    "test:python": "python -m unittest discover -s release-pipeline/tests -v",
+    "test:backend": "node scripts/test-backend.mjs",
+    "test": "npm run test:cpp && npm run test:python && npm run build:client"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
