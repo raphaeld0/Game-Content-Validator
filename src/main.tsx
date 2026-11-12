@@ -130,12 +130,13 @@ function App() {
       <header className="topbar">
         <div className="brand-block">
           <button className="mobile-menu" aria-label="Abrir menu" onClick={() => setMobileNav(!mobileNav)}><Menu size={20}/></button>
-          <div className="brand-mark"><span>G</span></div>
+          <button className="brand-mark" aria-label="Voltar para a landing page" onClick={() => setView('landing')}><span>G</span></button>
           <div>
             <div className="brand-name">GAME CONTENT <b>PIPELINE</b></div>
             <div className="brand-sub">CONTENT OPERATIONS CONSOLE</div>
           </div>
         </div>
+        <div className="console-run"><span>ACTIVE RELEASE</span><b>EVT_WINTER_2026</b></div>
         <nav className="view-nav" aria-label="Navegação principal">
           <button className={view === 'editor' ? 'active' : ''} onClick={() => setView('editor')}><Code2 size={15}/>Editor</button>
           <button className={view === 'pipeline' ? 'active' : ''} onClick={() => setView('pipeline')}><Activity size={15}/>Pipeline</button>
