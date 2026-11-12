@@ -1,16 +1,16 @@
 import { useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
-  Activity, ArchiveRestore, Box, Check, CheckCircle2, ChevronDown,
+  Activity, ArchiveRestore, ArrowDown, ArrowRight, Box, Braces, Check, CheckCircle2, ChevronDown,
   ChevronRight, CircleDot, ClipboardCheck, CloudUpload, Code2, Copy,
-  Database, FileJson, Flag, Gift, Globe2, History, LayoutDashboard,
+  Cpu, Database, FileJson, Flag, Gift, GitBranch, Globe2, History, LayoutDashboard,
   ListChecks, LoaderCircle, LockKeyhole, Menu, Package, Play, Plus,
-  Rocket, Search, Settings, ShieldCheck, ShoppingBag, Sparkles, Terminal,
+  Rocket, ScanLine, Search, Settings, ShieldCheck, ShoppingBag, Sparkles, Terminal,
   TriangleAlert, X, XCircle, Zap
 } from 'lucide-react'
 import './styles.css'
 
-type View = 'editor' | 'pipeline' | 'history'
+type View = 'landing' | 'editor' | 'pipeline' | 'history'
 type Section = 'overview' | 'items' | 'missions' | 'rewards' | 'store' | 'localization'
 type ValidationState = 'idle' | 'running' | 'valid' | 'invalid'
 
@@ -75,7 +75,7 @@ const historyEntries = [
 ]
 
 function App() {
-  const [view, setView] = useState<View>('editor')
+  const [view, setView] = useState<View>('landing')
   const [section, setSection] = useState<Section>('overview')
   const [data, setData] = useState<ContentData>(validContent)
   const [validation, setValidation] = useState<ValidationState>('idle')
@@ -119,6 +119,10 @@ function App() {
       return
     }
     setView('pipeline')
+  }
+
+  if (view === 'landing') {
+    return <LandingPage onEnter={() => setView('editor')} />
   }
 
   return (
@@ -181,6 +185,122 @@ function App() {
       {toast && <div className="toast"><CheckCircle2 size={17}/>{toast}</div>}
     </div>
   )
+}
+
+function LandingPage({onEnter}: {onEnter: () => void}) {
+  const [sample, setSample] = useState<'valid' | 'blocked'>('blocked')
+  const isValid = sample === 'valid'
+
+  return <div className="landing">
+    <header className="landing-nav">
+      <a className="landing-brand" href="#top" aria-label="Game Content Pipeline — início">
+        <span className="landing-brand-mark">GCP</span>
+        <span>GAME CONTENT<br/>PIPELINE</span>
+      </a>
+      <div className="landing-nav-center">
+        <a href="#system">O sistema</a>
+        <a href="#proof">Validação</a>
+        <a href="#architecture">Arquitetura</a>
+      </div>
+      <button className="landing-open" onClick={onEnter}>ABRIR CONSOLE <ArrowRight size={15}/></button>
+    </header>
+
+    <main id="top">
+      <section className="landing-hero">
+        <div className="hero-grid-lines" aria-hidden="true"/>
+        <div className="hero-index">PORTFOLIO SYSTEM / 001</div>
+        <div className="hero-eyebrow"><span>CONTENT OPERATIONS</span><i/>RELEASE SAFETY FOR LIVE GAMES</div>
+        <h1><span>GAME</span><span>CONTENT</span><span className="hero-outline">PIPELINE</span></h1>
+        <div className="hero-copy">
+          <p>Configure eventos, valide relações e simule publicações antes que um pacote de conteúdo chegue ao jogo.</p>
+          <button onClick={onEnter}><span>EXPLORAR O CONSOLE</span><ArrowRight size={18}/></button>
+        </div>
+
+        <div className="manifest-stamp" aria-hidden="true">
+          <span>VALIDATION</span><strong>24</strong><small>RULES ACTIVE</small>
+        </div>
+
+        <div className="hero-package" aria-label="Prévia de um pacote de evento">
+          <div className="package-top"><span>EVENT PACKAGE</span><code>EVT_WINTER_2026</code><i>RC.01</i></div>
+          <div className="package-body">
+            <div className="package-title"><small>PREPARING RELEASE</small><strong>WINTER<br/>RIFT '26</strong></div>
+            <div className="package-counts">
+              <span><b>30</b> ITENS</span><span><b>05</b> MISSÕES</span><span><b>03</b> PACOTES</span>
+            </div>
+            <div className="package-bar"><span/><span/><span/><span/></div>
+            <div className="package-code">BR1 · 03 DEC 2026 · 18:00 UTC-3</div>
+          </div>
+        </div>
+
+        <a className="hero-scroll" href="#system"><ArrowDown size={15}/>DESÇA PARA INSPECIONAR</a>
+        <div className="hero-ticker" aria-hidden="true"><div>UNIQUE IDS <span>◆</span> VALID REFERENCES <span>◆</span> PRICING RULES <span>◆</span> LOCALIZATION COVERAGE <span>◆</span> SAFE ROLLBACK <span>◆</span> UNIQUE IDS <span>◆</span> VALID REFERENCES</div></div>
+      </section>
+
+      <section className="landing-problem" id="system">
+        <div className="section-number">01 / THE SYSTEM</div>
+        <div className="problem-heading">
+          <h2>Conteúdo ao vivo<br/>não aceita <em>“quase”.</em></h2>
+          <p>Um evento pode reunir dezenas de itens, missões, recompensas, preços e traduções. Uma referência quebrada basta para bloquear a publicação.</p>
+        </div>
+        <div className="problem-ledger">
+          <div><span>EVENTO DE EXEMPLO</span><strong>68</strong><p>relações entre itens, recompensas e pacotes</p></div>
+          <div><span>COBERTURA DO MOTOR</span><strong>24</strong><p>regras verificadas a cada execução</p></div>
+          <div><span>TEMPO MÉDIO</span><strong>12<small>ms</small></strong><p>para retornar um relatório acionável</p></div>
+        </div>
+      </section>
+
+      <section className="validation-proof" id="proof">
+        <div className="proof-intro">
+          <div className="section-number light">02 / VALIDATION PROOF</div>
+          <h2>O erro aparece<br/>antes do jogador.</h2>
+          <p>Troque a amostra para ver como o mesmo pacote muda de um release bloqueado para staging aprovado.</p>
+          <div className="proof-switch" role="group" aria-label="Estado da amostra">
+            <button className={!isValid ? 'active blocked' : ''} onClick={() => setSample('blocked')}><XCircle size={14}/>COM ERROS</button>
+            <button className={isValid ? 'active valid' : ''} onClick={() => setSample('valid')}><CheckCircle2 size={14}/>VÁLIDA</button>
+          </div>
+        </div>
+
+        <div className={`proof-console ${isValid ? 'is-valid' : ''}`}>
+          <div className="proof-console-bar"><div><i/><i/><i/></div><span>validator / winter_event.json</span><code>C++20</code></div>
+          <div className="proof-console-grid">
+            <div className="proof-json">
+              <div className="proof-file"><FileJson size={15}/>event.manifest.json<span>42 lines</span></div>
+              <pre><span className="dim">{'{'}</span>{'\n'}  <span className="key">"event_id"</span>: <span className="value">"EVT_WINTER_2026"</span>,{'\n'}  <span className="key">"rewards"</span>: [{'\n'}    {'{'} <span className="key">"item_id"</span>: <span className={isValid ? 'value' : 'error-value'}>"{isValid ? 'ITEM_ORB_01' : 'ITEM_ORB_99'}"</span> {'}'},{'\n'}    {'{'} <span className="key">"quantity"</span>: <span className="number">300</span> {'}'}{'\n'}  ],{'\n'}  <span className="key">"locales"</span>: [<span className="value">"pt-BR"</span>, <span className="value">"en-US"</span>{isValid && <>, <span className="value">"es-MX"</span></>}] {'\n'}<span className="dim">{'}'}</span></pre>
+            </div>
+            <div className="proof-report">
+              <div className="report-title"><ScanLine size={16}/><span>VALIDATION REPORT</span><code>12ms</code></div>
+              <div className={`report-status ${isValid ? 'valid' : 'blocked'}`}>
+                {isValid ? <CheckCircle2 size={25}/> : <XCircle size={25}/>}<div><small>PUBLICATION STATUS</small><strong>{isValid ? 'READY FOR STAGING' : 'BLOCKED'}</strong></div>
+              </div>
+              {!isValid ? <div className="report-issues">
+                <div><span>ERROR</span><b>REF_004</b><p>Item <code>ITEM_ORB_99</code> não existe.</p></div>
+                <div><span>WARN</span><b>LOC_011</b><p>Tradução <code>es-MX</code> ausente.</p></div>
+              </div> : <div className="report-clean"><ShieldCheck size={30}/><strong>24 / 24 REGRAS</strong><p>Nenhum bloqueio conhecido.</p></div>}
+              <div className="report-footer"><span>references</span><b>{isValid ? '65/65' : '64/65'}</b><span>locales</span><b>{isValid ? '3/3' : '2/3'}</b></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="architecture" id="architecture">
+        <div className="section-number">03 / ARCHITECTURE</div>
+        <div className="architecture-heading"><h2>Três linguagens.<br/>Um release confiável.</h2><p>As camadas refletem responsabilidades reais de engenharia: autoria, regras de domínio e automação de entrega.</p></div>
+        <div className="architecture-track">
+          <article><span>01</span><div className="tech-icon"><Braces size={24}/></div><small>AUTHORING LAYER</small><h3>React +<br/>TypeScript</h3><p>Editor tipado para eventos, itens, missões e localização.</p><code>content-editor/</code></article>
+          <div className="track-arrow"><ArrowRight size={24}/><small>JSON</small></div>
+          <article><span>02</span><div className="tech-icon"><Cpu size={24}/></div><small>DOMAIN LAYER</small><h3>C++20<br/>Validator</h3><p>Regras rápidas, referências cruzadas e testes automatizados.</p><code>validator-engine/</code></article>
+          <div className="track-arrow"><ArrowRight size={24}/><small>REPORT</small></div>
+          <article><span>03</span><div className="tech-icon"><GitBranch size={24}/></div><small>DELIVERY LAYER</small><h3>Python<br/>Pipeline</h3><p>Staging, histórico de versões, publicação e rollback.</p><code>release-pipeline/</code></article>
+        </div>
+      </section>
+
+      <section className="landing-final">
+        <div className="final-marquee" aria-hidden="true">VALIDATE / SHIP / OBSERVE / ROLLBACK /</div>
+        <div className="final-content"><span>GAME CONTENT PIPELINE</span><h2>Inspecione o<br/>release por dentro.</h2><button onClick={onEnter}>ABRIR CONSOLE INTERATIVO <ArrowRight size={18}/></button></div>
+        <div className="final-meta"><span>C++20 · PYTHON · TYPESCRIPT</span><span>PORTFOLIO PROJECT / 2026</span></div>
+      </section>
+    </main>
+  </div>
 }
 
 function EditorView({data, setData, section, summary, validation, runValidation, loadSample, setJsonOpen, goPipeline, panelOpen}: any) {
